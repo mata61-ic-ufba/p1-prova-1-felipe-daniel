@@ -73,6 +73,7 @@ var_t* get_var(const char *name) {
 program
     : /* empty */
     | program command EOL
+    | program EOL                
     ;
 
 command
