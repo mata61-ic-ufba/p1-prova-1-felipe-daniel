@@ -69,20 +69,28 @@ var_t* get_var(const char *name) {
 
 %%
 
-
 program
-    : /* empty */
+    : 
     | program command EOL
-    | program EOL                
+    | program EOL
     ;
 
 command
-    : expression                { /* resultado ignorado */ }
-    | string_expr               { /* resultado ignorado */ }
+    : expression                { }
+    | string_expr               { }
     | ID ASSIGN expression      { set_var($1, $3, NULL, 0); }
     | ID ASSIGN string_expr     { set_var($1, 0, $3, 1); }
-    | PRINT expression          { fprintf(yyout, "%d\n", $2); }
-    | PRINT string_expr         { fprintf(yyout, "%s\n", $2); }
+    | PRINT print_args          { }
+    ;
+
+print_args
+    : print_arg
+    | print_args COMMA print_arg
+    ;
+
+print_arg
+    : expression
+    | string_expr
     ;
 
 expression
